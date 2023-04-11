@@ -78,6 +78,7 @@ namespace ThriftshopSite.Controllers
 
         }
 
+        // adds a category
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddCategory([Bind("CategoriesName,ProductsId")] CategoryProduct categoryProduct)
