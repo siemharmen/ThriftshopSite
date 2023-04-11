@@ -1,0 +1,34 @@
+﻿@model ThriftshopSite.Models.ThriftShop
+
+@{
+    ViewData["Title"] = "Details";
+    var products = ViewData["Products"] as IEnumerable<Product>;
+
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>ThriftShop</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Location)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Location)
+        </dd>
+        @foreach (var item in products)
+        {
+              <dt class = "col-sm-2">
+            item
+            </dt>
+            <dd class ="col-sm-10">@item.Name</dd>
+        }
+
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Name">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
