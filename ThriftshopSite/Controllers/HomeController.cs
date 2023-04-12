@@ -8,6 +8,7 @@ namespace ThriftshopSite.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
+        //jj
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
