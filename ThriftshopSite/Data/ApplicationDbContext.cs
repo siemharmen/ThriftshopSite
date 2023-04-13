@@ -18,6 +18,7 @@ namespace ThriftshopSite.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //testing push
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<CategoryProduct>().HasKey(o => new { o.ProductsId, o.CategoriesName });
