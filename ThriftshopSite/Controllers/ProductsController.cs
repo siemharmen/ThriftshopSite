@@ -60,6 +60,20 @@ namespace ThriftshopSite.Controllers
             return View();
         }
 
+        [HttpPost]
+        public ActionResult AddImageFile(Product product,FileModel fileModel)
+        {
+            try
+            {
+                product.Files.Add(fileModel);
+                return PartialView("_AllTweets", product);
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
         // GET: Products/Create
         public async Task<IActionResult> AddCategory(Guid? id)
         {

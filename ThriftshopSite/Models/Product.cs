@@ -14,9 +14,9 @@ namespace ThriftshopSite.Models
         public ThriftShop Shop { get; set; }  
         //public List<Category> Categories { get; set; }
         public virtual ICollection<Category> Categories { get; set; }
-        public ICollection<FileModel> Posts { get; } = new List<FileModel>();
+        public ICollection<FileModel> Files { get; } = new List<FileModel>();
 
-        public Product(Guid id,string name, int inventory, double price, string description,string image, ThriftShop shop, List<Category> categories)
+        public Product(Guid id,string name, int inventory, double price, string description,string image, ThriftShop shop, List<Category> categories,ICollection<FileModel> files)
         {
             Id = id;
             Name = name;
@@ -26,6 +26,8 @@ namespace ThriftshopSite.Models
             Image = image;
             Shop = shop;
             Categories = categories;
+            Files = files;
+
         }
 
         public Product(Guid id, string name, int inventory, double price, string description, string image)
