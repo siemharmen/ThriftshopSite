@@ -57,7 +57,11 @@ namespace ThriftshopSite.Controllers
         public IActionResult Create()
         {
             ViewData["Categories"] = _context.Categories;
-            return View();
+            ProductViewModel model = new ProductViewModel();
+            model.Files = new List<FileModel>();
+
+
+            return View(model); 
         }
 
         [HttpPost]
