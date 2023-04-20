@@ -40,7 +40,7 @@
                 <input asp-for="Image" class="form-control" />
                 <span asp-validation-for="Image" class="text-danger"></span>
             </div>
-             
+
             <button id="add-Category">Add Item</button>
 
             <div class="form-group">
@@ -50,6 +50,11 @@
     </div>
 </div>
 
+  
+            <form method="post" enctype="multipart/form-data" asp-controller="File" asp-action="UploadFile">
+                <input type="file" name="postedFile" />
+                <input type="submit" id="btnUpload" value="Upload"  />
+            </form>
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
