@@ -61,7 +61,7 @@ namespace ThriftshopSite.Controllers
             model.Files = new List<FileModel>();
 
 
-            return View(model); 
+            return View(); 
         }
 
         [HttpPost]
@@ -92,6 +92,12 @@ namespace ThriftshopSite.Controllers
             }
             List<Category> list = list1.Except(list3).ToList();
             ViewData["Categories"] =  list;
+            return View();
+
+        }
+        public async Task<IActionResult> AddImage(Guid? id)
+        {
+            ViewData["ProductId"] = id;
             return View();
 
         }

@@ -1,0 +1,15 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@model ThriftshopSite.Models.FileModel
+@{
+    var product = ViewData["ProductId"];
+
+}
+
+   <form method="post" enctype="multipart/form-data" asp-controller="File" asp-action="UploadFileWithId">
+                <input type="file" name="postedFile" />
+                <input asp-for="Product" value=@product />
+                <input type="submit" id="btnUpload" value="Upload"  />
+</form>

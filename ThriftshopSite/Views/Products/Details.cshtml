@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Details";
     var categories = ViewData["Categories"] as IEnumerable<Category>;
+    var id = Model.Id;
 }
 
 <h1>Details</h1>
@@ -60,3 +61,4 @@
     <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
+                                <img width="100" height="100" src='@Url.Action("ShowFileByProject", "File", new {Id = @id})'/>

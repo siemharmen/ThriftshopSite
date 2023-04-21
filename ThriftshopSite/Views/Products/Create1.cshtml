@@ -2,9 +2,10 @@
 
 @{
     ViewData["Title"] = "Create";
-    ViewData["test"] = new Category("test",Category.Ctype.Color);
+    ViewData["test"] = new Category("test",Category.Ctype.Color);  
     //Model.Categories = new List<Category>();
 }
+
 
 <h1>Create</h1>
 
@@ -55,12 +56,16 @@
 </div>
 
   
-         <form method="post" enctype="multipart/form-data" asp-controller="File" asp-action="UploadFileWithId">
+            <form method="post" enctype="multipart/form-data" asp-controller="File" asp-action="UploadFile">
                 <input type="file" name="postedFile" />
-                <input asp-for="product" value=@product />
                 <input type="submit" id="btnUpload" value="Upload"  />
-</form>
-     
+            </form>
+             <form method="post" enctype="multipart/form-data" asp-controller="Product" asp-action="AddImageFile">
+                <input asp-for="Files" value=@Model.Files name="a" />
+                <input type="File" asp-for="File" name="b" />
+                <input asp-for="product" value=@Model.product name="c" />
+                <input type="submit" id="btnUpload" value="Send"  />
+            </form>
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
