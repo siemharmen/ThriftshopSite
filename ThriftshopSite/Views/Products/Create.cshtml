@@ -54,7 +54,11 @@
                  <input value="" asp-for="Files" class="form-control" />
                 <span asp-validation-for="product.Image" class="text-danger"></span>
             </div>
-
+            <div class="form-group">
+                <label asp-for="product.Files" class="control-label"></label>
+                <input value="" asp-for="product.Files" class="form-control" />
+                <span asp-validation-for="product.Files" class="text-danger"></span>
+            </div>
             <button id="add-Category">Add Item</button>
 
             <div class="form-group">

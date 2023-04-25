@@ -61,7 +61,10 @@
         {
                 <img width="100" height="100"  src='@Url.Action("ShowFileByName", "File", new {Name = @item.Name})'/>
         }
-    </dd>         
+    </dd>
+    <div>
+    <a asp-action="" asp-route-id="@Model?.Id">Edit</a> |
+    </div>
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |

@@ -161,5 +161,42 @@ namespace ThriftshopSite.Controllers
             }
             return File(bytes, contentType, fileName);
         }
+        [HttpGet]
+        public IActionResult ShowFileByName(string Name)
+        {
+            byte[] bytes;
+            string fileName, contentType;
+            string constr = this.Configuration.GetConnectionString("DefaultConnection");
+            using (SqlConnection con = new SqlConnection(constr))
+            {
+                using (SqlCommand cmd = new SqlCommand())
+                {
+
+                    cmd.CommandText = "SELECT Name, Data, ContentType FROM Files WHERE Name=@Name";
+                    cmd.Parameters.AddWithValue("@Name", Name);
+                    cmd.Connection = con;
+                    con.Open();
+                    using (SqlDataReader sdr = cmd.ExecuteReader())
+                    {
+                        sdr.Read();
+                        bytes = (byte[])sdr["Data"];
+                        contentType = sdr["ContentType"].ToString();
+                        fileName = sdr["Name"].ToString();
+                    }
+                    con.Close();
+                }
+            }
+            return File(bytes, contentType, fileName);
+        }
+        public IActionResult ShowFileData(byte[] bytes,string contentType,string fileName)
+        {
+            return File(bytes, contentType, fileName);
+        }
+        [HttpGet]
+        public List<FileModel> GetFiles(Guid id)
+        {
+            var countries = _context.Files.Where(a => a.Product.Id == id).ToList();
+            return countries;
+        }
     }
 }

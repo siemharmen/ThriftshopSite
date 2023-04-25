@@ -42,6 +42,8 @@ namespace ThriftshopSite.Controllers
                 return NotFound();
             }
 
+            List<FileModel> files = _context.Files.Where(a => a.Product.Id == id).ToList();
+
             List<CategoryProduct> list2 = _context.CategoryProducts.Where(a => a.ProductsId == id).ToList();
             List<Category> listCategory= new List<Category>();
             foreach (CategoryProduct categoryProduct in list2)
