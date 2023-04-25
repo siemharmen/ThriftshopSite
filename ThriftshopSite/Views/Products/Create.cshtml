@@ -1,19 +1,28 @@
 ﻿@model ThriftshopSite.Models.ProductViewModel
 
 @{
+
     ViewData["Title"] = "Create";
-    ViewData["test"] = new Category("test",Category.Ctype.Color);
-    //Model.Categories = new List<Category>();
+    Product product = ViewData["Product"] as Product;
 }
+
+
 
 <h1>Create</h1>
 
 <h4>Product</h4>
 <hr />
 <div class="row">
+
+    @product.Id 
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+              <div class="form-group">
+                <label asp-for="product.Id" class="control-label"></label>
+                <input asp-for="product.Id" value=@product.Id class="form-control" />
+                <span asp-validation-for="product.Name" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="product.Name" class="control-label"></label>
                 <input asp-for="product.Name" class="form-control" />
@@ -42,6 +51,7 @@
                <div class="form-group">
                 <label asp-for="product.Image" class="control-label"></label>
                 <input value="" asp-for="product.Image" class="form-control" />
+                 <input value="" asp-for="Files" class="form-control" />
                 <span asp-validation-for="product.Image" class="text-danger"></span>
             </div>
 
@@ -55,22 +65,29 @@
 </div>
 
   
-         <form method="post" enctype="multipart/form-data" asp-controller="File" asp-action="UploadFileWithId">
+            <form method="post" enctype="multipart/form-data" asp-controller="File" asp-action="UploadFile">
                 <input type="file" name="postedFile" />
-                <input asp-for="product" value=@product />
+                <input type="text" value=@product.Id name="product" />
                 <input type="submit" id="btnUpload" value="Upload"  />
-</form>
+            </form>
      
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
     
-<script>
-   // $(document).ready(function() {
-     //   $('#add-item-btn').click(function() {
-       //     Model.Categories.Add(ViewData["test"] as Category);
-        //});
-    //});
+            <button id="mybutton">alert</button>
+
+
+<body> <asp:Button ID="Button1" runat="server" Text="Button" OnClick="LoadJScript()" />fsdfsa</body>
+<script language="javascript" type="text/javascript" >
+      function LoadJScript()
+    {
+        //FileModel a = new FileModel()
+        //Model.Files.a(a);
+        // document.getElementById("label1").
+            console.log("test");
+
+    }
 </script>
 <div id="AllTweets">  
             @Html.Partial("_Files", Model)  

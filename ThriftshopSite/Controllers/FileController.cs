@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
+using ThriftshopSite.Data;
 using ThriftshopSite.Models;
 
 namespace ThriftshopSite.Controllers
@@ -7,21 +8,23 @@ namespace ThriftshopSite.Controllers
     public class FileController : Controller
     {
         private IConfiguration Configuration;
+        private readonly ApplicationDbContext _context;
 
-        public FileController(IConfiguration _configuration)
+        public FileController(IConfiguration _configuration, ApplicationDbContext context)
         {
             Configuration = _configuration;
+            _context = context;
         }
 
         [HttpPost]
-        public IActionResult UploadFile(IFormFile postedFile)
+        public IActionResult UploadFile(IFormFile postedFile,Product product)
         {
+            string constr = this.Configuration.GetConnectionString("DefaultConnection");
             string fileName = Path.GetFileName(postedFile.FileName);
             string contentType = postedFile.ContentType;
             using (MemoryStream ms = new MemoryStream())
             {
                 postedFile.CopyTo(ms);
-                string constr = this.Configuration.GetConnectionString("DefaultConnection");
                 using (SqlConnection con = new SqlConnection(constr))
                 {
                     string query = "INSERT INTO Files VALUES (@Name, @ContentType, @Data,@ProductId)";
@@ -39,8 +42,41 @@ namespace ThriftshopSite.Controllers
                     }
                 }
             }
+            List<FileModel> files = new List<FileModel>();
+            int newproductd = 0;
+            using (SqlConnection con = new SqlConnection(constr))
+            {
+                using (SqlCommand cmd = new SqlCommand())
+                {
 
-            return RedirectToAction("Index");
+                    cmd.CommandText = "SELECT Id FROM Files WHERE Name=@Name";
+                    cmd.Parameters.AddWithValue("@Name", fileName);
+                    cmd.Connection = con;
+                    con.Open();
+                    using (SqlDataReader sdr = cmd.ExecuteReader())
+                    {
+                        sdr.Read();
+
+                        newproductd = (int)sdr["Id"];
+                    }
+                    con.Close();
+                }
+            }
+            List<int> list = new List<int>();
+            List<FileModel> plist = new List<FileModel>();
+
+            //list.Add(newproductd);
+
+            //_context.Files.Where(f => f != null).ToList().ForEach(f => list.Add());
+
+            //List<FileModel> plist1 = _context.Files.Where(f => f.Product.Name == product.Name).ToList();
+            //foreach (FileModel file in product.Files)
+            //{
+            //   list.Add(file.Id);
+            //..}
+            //TempData["ProductsId"] = plist1;
+            return RedirectToAction("Create", "Products");
+                
         }
         [HttpPost]
         public IActionResult UploadFileWithId(IFormFile postedFile,Guid product)

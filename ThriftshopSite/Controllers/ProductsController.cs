@@ -57,10 +57,17 @@ namespace ThriftshopSite.Controllers
         public IActionResult Create()
         {
             ViewData["Categories"] = _context.Categories;
+            var Fileid = TempData["ProductsId"];
+
+            //alles ophalen op basis van ditdan toeveogen aanproduct
+            // dan updaten zodat je ze kloppen met de goede productid
+           // ViewData["ProductsId"] = productslist;
+
             ProductViewModel model = new ProductViewModel();
-            model.Files = new List<FileModel>();
-
-
+            ViewData["FileList"] = new List<FileModel>();
+            Product product = new Product();
+            product.Id = Guid.NewGuid();
+            ViewData["Product"] = product;
             return View(); 
         }
 
