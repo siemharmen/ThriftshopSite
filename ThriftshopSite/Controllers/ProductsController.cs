@@ -55,7 +55,39 @@ namespace ThriftshopSite.Controllers
             return View(product);
         }
 
+        // GET: Products/Details/5
+        public async Task<IActionResult> Add(Guid? id)
+        {
+            if (id == null || _context.Products == null)
+            {
+                return NotFound();
+            }
+
+            var product = await _context.Products
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            List<FileModel> files = _context.Files.Where(a => a.Product.Id == id).ToList();
+
+            List<CategoryProduct> list2 = _context.CategoryProducts.Where(a => a.ProductsId == id).ToList();
+            List<Category> listCategory = new List<Category>();
+            foreach (CategoryProduct categoryProduct in list2)
+            {
+                Category category = await _context.Categories.FirstOrDefaultAsync(m => m.Name == categoryProduct.CategoriesName);
+                listCategory.Add(category);
+            }
+            ViewData["Categories"] = listCategory;
+            return View(product);
+        }
+
         // GET: Products/Create
+        /// <summary>
+        /// Sends the user to Create products with a guid for the id of product
+        /// </summary>
+        /// <returns></returns>
         public IActionResult Create()
         {
             ViewData["Categories"] = _context.Categories;
@@ -65,13 +97,13 @@ namespace ThriftshopSite.Controllers
             // dan updaten zodat je ze kloppen met de goede productid
            // ViewData["ProductsId"] = productslist;
 
-            ProductViewModel model = new ProductViewModel();
             ViewData["FileList"] = new List<FileModel>();
             Product product = new Product();
             product.Id = Guid.NewGuid();
             ViewData["Product"] = product;
             return View(); 
         }
+
 
         [HttpPost]
         public ActionResult AddImageFile(Product product,FileModel fileModel)
@@ -87,6 +119,11 @@ namespace ThriftshopSite.Controllers
             }
         }
 
+        /// <summary>
+        /// send the player to a view where he can add a category with a list of categories that can be added based on what categories the product already possses.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         // GET: Products/Create
         public async Task<IActionResult> AddCategory(Guid? id)
         {
@@ -110,8 +147,13 @@ namespace ThriftshopSite.Controllers
             return View();
 
         }
-
-        // adds a category
+        
+        
+        /// <summary>
+        /// Adds a category to a product based on a existing category chosen from a list and the id of the product.
+        /// </summary>
+        /// <param name="categoryProduct"></param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddCategory([Bind("CategoriesName,ProductsId")] CategoryProduct categoryProduct)
@@ -131,10 +173,7 @@ namespace ThriftshopSite.Controllers
             //context.Add(productCategory);
             await _context.SaveChangesAsync();
 
-
-            return RedirectToAction(nameof(Index));
-            //}
-            return View(categoryProduct);
+            return RedirectToAction("Add", "Products", new { id = categoryProduct.ProductsId });
         }
 
 

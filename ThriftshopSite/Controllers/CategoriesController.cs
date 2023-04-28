@@ -48,9 +48,6 @@ namespace ThriftshopSite.Controllers
         // GET: Categories/Create
         public IActionResult Create()
         {
-            //                <select asp-for="CategoryType" asp-items="@(new SelectList(Model.getCtypes()))" class="form-control"> </select>
-
-            //var category = await _context.Categories.FirstOrDefaultAsync();
             ViewData["Types"] = new Category("test",Category.Ctype.Color).getCtypes(); 
             return View();
         }
@@ -61,6 +58,18 @@ namespace ThriftshopSite.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Name,CategoryType")] Category category)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(category);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(category);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateAdd([Bind("Name,CategoryType")] Category category)
         {
             if (ModelState.IsValid)
             {

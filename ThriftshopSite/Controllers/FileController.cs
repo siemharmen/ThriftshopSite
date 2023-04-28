@@ -16,8 +16,14 @@ namespace ThriftshopSite.Controllers
             _context = context;
         }
 
+        /// <summary>
+        /// Uploads a file to the database with an empty pro
+        /// </summary>
+        /// <param name="postedFile"></param>
+        /// <param name="product"></param>
+        /// <returns></returns>
         [HttpPost]
-        public IActionResult UploadFile(IFormFile postedFile,Product product)
+        public IActionResult UploadFile(IFormFile postedFile,Product product) 
         {
             string constr = this.Configuration.GetConnectionString("DefaultConnection");
             string fileName = Path.GetFileName(postedFile.FileName);
@@ -78,6 +84,13 @@ namespace ThriftshopSite.Controllers
             return RedirectToAction("Create", "Products");
                 
         }
+
+        /// <summary>
+        /// Uploads a file to the database with an id based on the given product
+        /// </summary>
+        /// <param name="postedFile"></param>
+        /// <param name="product"></param>
+        /// <returns></returns>
         [HttpPost]
         public IActionResult UploadFileWithId(IFormFile postedFile,Guid product)
         {
@@ -105,9 +118,15 @@ namespace ThriftshopSite.Controllers
                 }
             }
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Add", "Products", new { id = product });
         }
 
+
+        /// <summary>
+        /// Shows a images based on the id of a file
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet]
         public IActionResult ShowFile(int id)
         {
@@ -134,6 +153,8 @@ namespace ThriftshopSite.Controllers
             }
             return File(bytes, contentType, fileName);
         }
+
+        //weg
         [HttpGet]
         public IActionResult ShowFileByProject(Guid id)
         {
@@ -161,6 +182,13 @@ namespace ThriftshopSite.Controllers
             }
             return File(bytes, contentType, fileName);
         }
+
+
+        /// <summary>
+        /// shows a images from a file based on that files name
+        /// </summary>
+        /// <param name="Name"></param>
+        /// <returns></returns>
         [HttpGet]
         public IActionResult ShowFileByName(string Name)
         {
@@ -188,10 +216,26 @@ namespace ThriftshopSite.Controllers
             }
             return File(bytes, contentType, fileName);
         }
+
+
+        /// <summary>
+        /// shows a file based on data given
+        /// </summary>
+        /// <param name="bytes"></param>
+        /// <param name="contentType"></param>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
         public IActionResult ShowFileData(byte[] bytes,string contentType,string fileName)
         {
             return File(bytes, contentType, fileName);
         }
+
+
+        /// <summary>
+        /// gets all files with a connection to a spefic product
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet]
         public List<FileModel> GetFiles(Guid id)
         {

@@ -9,7 +9,30 @@
 }
 
    <form method="post" enctype="multipart/form-data" asp-controller="File" asp-action="UploadFileWithId">
-                <input type="file" name="postedFile" />
-                <input asp-for="Product" value=@product />
+                <input type="file" id="Image" name="postedFile" />
+                <input asp-for="Product" type="hidden" id="productField" value=@product />
                 <input type="submit" id="btnUpload" value="Upload"  />
 </form>
+ <img style="display: none;" id="imagePreview" width="300" height="300"  src="#" alt="Image Preview">
+
+
+<script>
+ // Get the input element and the image element
+var imageInput = document.getElementById('Image');
+var imagePreview = document.getElementById('imagePreview');
+
+// Add an event listener to the input element for when a file is selected
+imageInput.addEventListener('change', function(e) {
+  var file = e.target.files[0]; // Get the selected file
+  var reader = new FileReader(); // Create a FileReader object
+  imagePreview.style.display = "block"; // makes the image visible
+
+  // Read the file as a data URL
+  reader.readAsDataURL(file);
+
+  // Set the image source to the data URL when the file is loaded
+  reader.onload = function(e) {
+    imagePreview.src = e.target.result;
+  };
+});
+</script>

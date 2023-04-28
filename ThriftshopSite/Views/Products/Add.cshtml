@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Details";
+   
     var categories = ViewData["Categories"] as IEnumerable<Category>;
     var id = Model.Id;
 }
@@ -54,7 +55,6 @@
              <dt class = "col-sm-2">
         </dt>
         }
-         
     </dl>
     <dd class = "col-sm-10">
         @foreach(FileModel item in Model.Files)
@@ -63,10 +63,13 @@
         }
     </dd>
     <div>
-    <a asp-action="" asp-route-id="@Model?.Id">Edit</a> |
-    </div>
+
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Back to List</a> 
+</div>
+<div>
+    <a asp-controller="Products" asp-action="AddCategory" asp-route-id="@id">Add Categorie</a> |
+    <a asp-controller="Products" asp-action="AddImage" asp-route-id="@id">Add Afbeelding</a>
 </div>
