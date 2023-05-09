@@ -201,10 +201,7 @@ namespace ThriftshopSite.Controllers
                 //context.Add(productCategory);
                 await _context.SaveChangesAsync();
 
-
-                return RedirectToAction(nameof(Index));
-            //}
-            return View(product);
+            return RedirectToAction("Add", "Products", new { id = product.Id });
         }
 
         // GET: Products/Edit/5
