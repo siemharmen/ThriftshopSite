@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -9,8 +10,10 @@ using Microsoft.EntityFrameworkCore;
 using ThriftshopSite.Data;
 using ThriftshopSite.Models;
 
+
 namespace ThriftshopSite.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class UserAccountsController : Controller
     {
         private readonly ApplicationDbContext _context;
