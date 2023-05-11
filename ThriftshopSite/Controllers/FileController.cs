@@ -25,6 +25,7 @@ namespace ThriftshopSite.Controllers
         [HttpPost]
         public IActionResult UploadFile(IFormFile postedFile,Product product) 
         {
+           //_context.Users.ToList().ForEach(u =>    
             string constr = this.Configuration.GetConnectionString("DefaultConnection");
             string fileName = Path.GetFileName(postedFile.FileName);
             string contentType = postedFile.ContentType;
