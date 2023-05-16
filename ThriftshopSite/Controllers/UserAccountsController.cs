@@ -77,6 +77,33 @@ namespace ThriftshopSite.Controllers
         }
 
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<IActionResult> AssignEmployee(Guid? id,string EmployeeUsername)
+        {
+
+            var idenityAccount = await _context.UserAccount.FirstOrDefaultAsync(m => m.Name == EmployeeUsername);
+            var userAccount = await _context.UserAccount
+                .FirstOrDefaultAsync(m => m.Id == id);
+           // userAccount.role = UserAccount.Role.Admin;
+            IdentityUser user = await _userManager.FindByNameAsync(userAccount.Name);
+            await _userManager.AddToRoleAsync(user, "Employee");
+            var EthriftShop = await _context.EmployeeThriftShops.FirstOrDefaultAsync(m => m.Account == idenityAccount);
+            ThriftShop thriftShop = EthriftShop.ThriftShop;
+            if (EthriftShop != null)
+            {
+                _context.EmployeeThriftShops.Add(new EmployeeThriftshop(userAccount, thriftShop));
+            }
+            await _context.SaveChangesAsync();
+
+            
+            return RedirectToAction(nameof(Index));
+        }
+
+
         // POST: UserAccounts/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.

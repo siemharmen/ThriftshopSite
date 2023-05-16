@@ -16,6 +16,7 @@ namespace ThriftshopSite.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<CategoryProduct> CategoryProducts { get; set; }
         public DbSet<FileModel> Files { get; set; }
+        public DbSet<EmployeeThriftshop> EmployeeThriftShops { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

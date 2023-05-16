@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ThriftshopSite.Data;
 
@@ -11,9 +12,10 @@ using ThriftshopSite.Data;
 namespace ThriftshopSite.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230512084234_bool")]
+    partial class @bool
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -67,21 +69,21 @@ namespace ThriftshopSite.Migrations
                         new
                         {
                             Id = "1",
-                            ConcurrencyStamp = "61e05904-fa90-48fc-bac0-744a8abf5898",
+                            ConcurrencyStamp = "688eb753-16bc-414d-b68d-a07ac7a8613a",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "2",
-                            ConcurrencyStamp = "aabc6827-e604-4ea5-8702-bd1c17312374",
+                            ConcurrencyStamp = "956d8d82-efb7-4a87-a855-58244ebd0c0f",
                             Name = "Employee",
                             NormalizedName = "Thriftshop Employee"
                         },
                         new
                         {
                             Id = "3",
-                            ConcurrencyStamp = "ddc8b750-8209-4240-802b-596b9392569b",
+                            ConcurrencyStamp = "61c3822e-95cf-4313-afbc-607713ef2dd5",
                             Name = "User",
                             NormalizedName = "User"
                         });
@@ -288,28 +290,6 @@ namespace ThriftshopSite.Migrations
                     b.ToTable("CategoryProducts");
                 });
 
-            modelBuilder.Entity("ThriftshopSite.Models.EmployeeThriftshop", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("AccountId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("ThriftShopName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AccountId");
-
-                    b.HasIndex("ThriftShopName");
-
-                    b.ToTable("EmployeeThriftShops");
-                });
-
             modelBuilder.Entity("ThriftshopSite.Models.FileModel", b =>
                 {
                     b.Property<int>("Id")
@@ -474,25 +454,6 @@ namespace ThriftshopSite.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("ThriftshopSite.Models.EmployeeThriftshop", b =>
-                {
-                    b.HasOne("ThriftshopSite.Models.UserAccount", "Account")
-                        .WithMany()
-                        .HasForeignKey("AccountId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ThriftshopSite.Models.ThriftShop", "ThriftShop")
-                        .WithMany()
-                        .HasForeignKey("ThriftShopName")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Account");
-
-                    b.Navigation("ThriftShop");
                 });
 
             modelBuilder.Entity("ThriftshopSite.Models.FileModel", b =>

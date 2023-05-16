@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ThriftshopSite.Data;
 
@@ -11,9 +12,10 @@ using ThriftshopSite.Data;
 namespace ThriftshopSite.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230512123355_EmployeeThrift")]
+    partial class EmployeeThrift
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -67,21 +69,21 @@ namespace ThriftshopSite.Migrations
                         new
                         {
                             Id = "1",
-                            ConcurrencyStamp = "61e05904-fa90-48fc-bac0-744a8abf5898",
+                            ConcurrencyStamp = "65464ff7-ef66-4028-96d8-4076327b8415",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "2",
-                            ConcurrencyStamp = "aabc6827-e604-4ea5-8702-bd1c17312374",
+                            ConcurrencyStamp = "baa06828-c821-4d80-a519-2c5a1555112a",
                             Name = "Employee",
                             NormalizedName = "Thriftshop Employee"
                         },
                         new
                         {
                             Id = "3",
-                            ConcurrencyStamp = "ddc8b750-8209-4240-802b-596b9392569b",
+                            ConcurrencyStamp = "61906d44-e85a-46a0-ba1e-f2b7fe9c20b0",
                             Name = "User",
                             NormalizedName = "User"
                         });
@@ -290,9 +292,11 @@ namespace ThriftshopSite.Migrations
 
             modelBuilder.Entity("ThriftshopSite.Models.EmployeeThriftshop", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<Guid>("AccountId")
                         .HasColumnType("uniqueidentifier");
