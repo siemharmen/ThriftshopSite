@@ -12,8 +12,8 @@ using ThriftshopSite.Data;
 namespace ThriftshopSite.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230419154117_AddFiles")]
-    partial class AddFiles
+    [Migration("20230516155639_full")]
+    partial class full
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -64,6 +64,29 @@ namespace ThriftshopSite.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "1",
+                            ConcurrencyStamp = "52c9bfd2-7b96-4517-b22e-577f66d89552",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "2",
+                            ConcurrencyStamp = "1958abb1-8c3b-4acd-9c94-ba3996ac92b3",
+                            Name = "Employee",
+                            NormalizedName = "Thriftshop Employee"
+                        },
+                        new
+                        {
+                            Id = "3",
+                            ConcurrencyStamp = "0be7eb3d-1e79-4bfb-9f86-92db8a7bcad6",
+                            Name = "User",
+                            NormalizedName = "User"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -267,6 +290,28 @@ namespace ThriftshopSite.Migrations
                     b.ToTable("CategoryProducts");
                 });
 
+            modelBuilder.Entity("ThriftshopSite.Models.EmployeeThriftshop", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AccountId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ThriftShopName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccountId");
+
+                    b.HasIndex("ThriftShopName");
+
+                    b.ToTable("EmployeeThriftShops");
+                });
+
             modelBuilder.Entity("ThriftshopSite.Models.FileModel", b =>
                 {
                     b.Property<int>("Id")
@@ -337,6 +382,9 @@ namespace ThriftshopSite.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<bool>("IsApproved")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Location")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -344,6 +392,24 @@ namespace ThriftshopSite.Migrations
                     b.HasKey("Name");
 
                     b.ToTable("ThriftShops");
+                });
+
+            modelBuilder.Entity("ThriftshopSite.Models.UserAccount", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("role")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UserAccount");
                 });
 
             modelBuilder.Entity("CategoryProduct", b =>
@@ -412,10 +478,29 @@ namespace ThriftshopSite.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("ThriftshopSite.Models.EmployeeThriftshop", b =>
+                {
+                    b.HasOne("ThriftshopSite.Models.UserAccount", "Account")
+                        .WithMany()
+                        .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ThriftshopSite.Models.ThriftShop", "ThriftShop")
+                        .WithMany()
+                        .HasForeignKey("ThriftShopName")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Account");
+
+                    b.Navigation("ThriftShop");
+                });
+
             modelBuilder.Entity("ThriftshopSite.Models.FileModel", b =>
                 {
                     b.HasOne("ThriftshopSite.Models.Product", "Product")
-                        .WithMany("Posts")
+                        .WithMany("Files")
                         .HasForeignKey("ProductId");
 
                     b.Navigation("Product");
@@ -434,7 +519,7 @@ namespace ThriftshopSite.Migrations
 
             modelBuilder.Entity("ThriftshopSite.Models.Product", b =>
                 {
-                    b.Navigation("Posts");
+                    b.Navigation("Files");
                 });
 #pragma warning restore 612, 618
         }

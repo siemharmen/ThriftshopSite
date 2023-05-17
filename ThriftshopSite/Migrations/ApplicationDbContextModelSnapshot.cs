@@ -67,21 +67,21 @@ namespace ThriftshopSite.Migrations
                         new
                         {
                             Id = "1",
-                            ConcurrencyStamp = "61e05904-fa90-48fc-bac0-744a8abf5898",
+                            ConcurrencyStamp = "52c9bfd2-7b96-4517-b22e-577f66d89552",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "2",
-                            ConcurrencyStamp = "aabc6827-e604-4ea5-8702-bd1c17312374",
+                            ConcurrencyStamp = "1958abb1-8c3b-4acd-9c94-ba3996ac92b3",
                             Name = "Employee",
                             NormalizedName = "Thriftshop Employee"
                         },
                         new
                         {
                             Id = "3",
-                            ConcurrencyStamp = "ddc8b750-8209-4240-802b-596b9392569b",
+                            ConcurrencyStamp = "0be7eb3d-1e79-4bfb-9f86-92db8a7bcad6",
                             Name = "User",
                             NormalizedName = "User"
                         });
