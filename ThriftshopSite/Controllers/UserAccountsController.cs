@@ -32,6 +32,26 @@ namespace ThriftshopSite.Controllers
                           View(await _context.UserAccount.ToListAsync()) :
                           Problem("Entity set 'ApplicationDbContext.UserAccount'  is null.");
         }
+        public async Task<IActionResult> EmployeeAdd()
+        {
+            return _context.UserAccount != null ?
+                        View(await _context.UserAccount.ToListAsync()) :
+                        Problem("Entity set 'ApplicationDbContext.UserAccount'  is null.");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddEmployee(Guid? id, string naam)
+        {
+            var userAccount = await _context.UserAccount
+                .FirstOrDefaultAsync(m => m.Id == id);
+            userAccount.role = UserAccount.Role.Admin;
+            IdentityUser user = await _userManager.FindByNameAsync(userAccount.Name);
+            await _userManager.AddToRoleAsync(user, "Admin");
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+            return View();
+        }
 
         // GET: UserAccounts/Details/5
         public async Task<IActionResult> Details(Guid? id)
@@ -54,6 +74,29 @@ namespace ThriftshopSite.Controllers
         // GET: UserAccounts/Create
         public IActionResult Create()
         {
+            return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AssignAdmin1(Guid? id)
+        {
+            var userAccount = await _context.UserAccount
+                .FirstOrDefaultAsync(m => m.Id == id);
+            IdentityUser user = await _userManager.FindByNameAsync(userAccount.Name);
+            return View(user);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AssignAdmin(Guid? id,string naam)
+        {
+            var userAccount = await _context.UserAccount
+                .FirstOrDefaultAsync(m => m.Id == id);
+            userAccount.role = UserAccount.Role.Admin;
+            IdentityUser user = await _userManager.FindByNameAsync(userAccount.Name);
+            await _userManager.AddToRoleAsync(user,"Admin");
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
             return View();
         }
 

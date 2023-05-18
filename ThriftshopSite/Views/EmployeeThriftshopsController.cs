@@ -89,6 +89,50 @@ namespace ThriftshopSite.Views
             return View();
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddEmployeeToShop(Guid userGuid, string thriftShop)
+        {
+            //maak van thriftshop een guid dan zelfde doen dan klaar
+            if (ModelState.IsValid)
+            {
+                EmployeeThriftshop employeeThriftshop = new EmployeeThriftshop();
+                employeeThriftshop.Id = Guid.NewGuid();
+                employeeThriftshop.Account = await _context.UserAccount.FirstOrDefaultAsync(m => m.Id == userGuid);
+                employeeThriftshop.ThriftShop = await _context.ThriftShops.FirstOrDefaultAsync(m => m.Name == thriftShop); ;
+                _context.Add(employeeThriftshop);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View();
+        }
+        public async Task<IActionResult> AddEmployeeToShop(Guid? id)
+        {
+            UserAccount userAccount = await _context.UserAccount.FirstAsync(m => m.Id == id);
+            var thriftShop = _context.EmployeeThriftShops.Include(x => x.ThriftShop).Where(entry => entry.Account == userAccount).Select(entry => entry.ThriftShop);
+           var employeeThriftshop = await _context.EmployeeThriftShops.FirstOrDefaultAsync(m => m.Id == id);
+            EmployeeThriftshop shopName = await _context.EmployeeThriftShops.FirstOrDefaultAsync(m => m.Account == userAccount);
+            ViewData["UserAccount"] = id;
+            ViewData["ThriftShop"] = shopName.ThriftShop.Name;
+            return View();
+        }
+        public async Task<IActionResult> a(Guid userGuid, string thriftShop)
+        {
+            //maak van thriftshop een guid dan zelfde doen dan klaar
+            if (ModelState.IsValid)
+            {
+                EmployeeThriftshop employeeThriftshop = new EmployeeThriftshop();
+                employeeThriftshop.Id = Guid.NewGuid();
+                employeeThriftshop.Account = await _context.UserAccount.FirstOrDefaultAsync(m => m.Id == userGuid);
+                employeeThriftshop.ThriftShop = await _context.ThriftShops.FirstOrDefaultAsync(m => m.Name == thriftShop); ;
+                _context.Add(employeeThriftshop);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View();
+        }
+
+
         // GET: EmployeeThriftshops/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
