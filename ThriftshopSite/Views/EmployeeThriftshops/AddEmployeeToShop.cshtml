@@ -5,10 +5,14 @@
     var usera = ViewData["UserAccount"] as UserAccount;
     var user = ViewData["UserAccount"];
     var ThriftShop = ViewData["ThriftShop"];
-}
+     var ThriftShops = ViewData["ThriftShops"] as IEnumerable<ThriftShop>;
+}  
+
 
 <h1>Create</h1>
-
+      <div class="form-group">
+                <label class="control-label"></label>
+            </div>
 <h4>EmployeeThriftshop</h4>
 <hr />
 <div class="row">
@@ -20,7 +24,7 @@
             </div>
               <div class="form-group">
                 <label class="control-label"></label>
-                <input name="thriftShop" value=@ThriftShop class="form-control" name="Account" />
+                <select name="thriftShop" asp-items="@(new SelectList(ThriftShops,"Name","Name"))" class="form-control"> </select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

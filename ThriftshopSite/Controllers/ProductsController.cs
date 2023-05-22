@@ -86,16 +86,20 @@ namespace ThriftshopSite.Controllers
         // GET: Products/Create
         /// <summary>
         /// Sends the user to Create products with a guid for the id of product
+        /// its also gives a list of thriftshops to the user based on what shops he's a member of
         /// </summary>
         /// <returns></returns>
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            UserAccount user = await _context.UserAccount.FirstAsync(m => m.Name == User.Identity.Name);
+
+            IEnumerable<ThriftShop> thriftShops = _context.EmployeeThriftShops.Include(x => x.ThriftShop).Where(entry => entry.Account == user).Select(entry => entry.ThriftShop).AsEnumerable<ThriftShop>();
             ViewData["Categories"] = _context.Categories;
             var Fileid = TempData["ProductsId"];
-
+            ViewData["Thrifshop"] = thriftShops;
             //alles ophalen op basis van ditdan toeveogen aanproduct
             // dan updaten zodat je ze kloppen met de goede productid
-           // ViewData["ProductsId"] = productslist;
+            // ViewData["ProductsId"] = productslist;
 
             ViewData["FileList"] = new List<FileModel>();
             Product product = new Product();
@@ -104,6 +108,33 @@ namespace ThriftshopSite.Controllers
             return View(); 
         }
 
+
+        /// <summary>
+        /// Creates a new product with a thriftshop
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="name"></param>
+        /// <param name="inventory"></param>
+        /// <param name="price"></param>
+        /// <param name="description"></param>
+        /// <param name="image"></param>
+        /// <param name="thriftShop"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Createshop(Guid id, string name, int inventory, double price, string description, string image, string thriftShop)
+        {
+            //maak van thriftshop een guid dan zelfde doen dan klaar
+            if (ModelState.IsValid)
+            {
+                var thriftShopfull = await _context.ThriftShops.FirstOrDefaultAsync(m => m.Name == thriftShop);
+                Product product = new Product(id, name, inventory, price, description, image, thriftShopfull);
+                _context.Add(product);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View();
+        }
 
         [HttpPost]
         public ActionResult AddImageFile(Product product,FileModel fileModel)
@@ -177,17 +208,18 @@ namespace ThriftshopSite.Controllers
         }
 
 
+       
+
         // POST: Products/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Inventory,Price,Description,Image")] Product product)
+        public async Task<IActionResult> Create([Bind("Id,Name,Inventory,Price,Description,Image,Shop")] Product product)
         {
             //,Category
             //product.Id = Guid.NewGuid();
             //Replace with the thriftshop of the shop worker 
-            product.Shop = _context.ThriftShops.FirstOrDefault();
 
             var errors = ModelState.Values.SelectMany(v => v.Errors);
 

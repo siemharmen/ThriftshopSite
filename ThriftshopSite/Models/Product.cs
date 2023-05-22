@@ -30,7 +30,7 @@ namespace ThriftshopSite.Models
 
         }
 
-        public Product(Guid id, string name, int inventory, double price, string description, string image)
+        public Product(Guid id, string name, int inventory, double price, string description, string image, ThriftShop shop)
         {
             Id = id;
             Name = name;
@@ -38,6 +38,8 @@ namespace ThriftshopSite.Models
             Price = price;
             Description = description;
             Image = image;
+            Shop = shop;
+
         }
 
         public Product()

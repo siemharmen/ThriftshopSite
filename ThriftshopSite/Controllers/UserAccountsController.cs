@@ -32,14 +32,14 @@ namespace ThriftshopSite.Controllers
                           View(await _context.UserAccount.ToListAsync()) :
                           Problem("Entity set 'ApplicationDbContext.UserAccount'  is null.");
         }
+        [AllowAnonymous]
         public async Task<IActionResult> EmployeeAdd()
         {
             return _context.UserAccount != null ?
                         View(await _context.UserAccount.ToListAsync()) :
                         Problem("Entity set 'ApplicationDbContext.UserAccount'  is null.");
         }
-
-        [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> AddEmployee(Guid? id, string naam)
         {
             var userAccount = await _context.UserAccount
@@ -86,6 +86,8 @@ namespace ThriftshopSite.Controllers
             return View(user);
         }
 
+
+        //weg
         [HttpPost]
         public async Task<IActionResult> AssignAdmin(Guid? id,string naam)
         {
@@ -128,13 +130,12 @@ namespace ThriftshopSite.Controllers
         public async Task<IActionResult> AssignEmployee(Guid? id,string EmployeeUsername)
         {
 
-            var idenityAccount = await _context.UserAccount.FirstOrDefaultAsync(m => m.Name == EmployeeUsername);
+            var employeeAccount = await _context.UserAccount.FirstOrDefaultAsync(m => m.Name == EmployeeUsername);
             var userAccount = await _context.UserAccount
                 .FirstOrDefaultAsync(m => m.Id == id);
-           // userAccount.role = UserAccount.Role.Admin;
             IdentityUser user = await _userManager.FindByNameAsync(userAccount.Name);
             await _userManager.AddToRoleAsync(user, "Employee");
-            var EthriftShop = await _context.EmployeeThriftShops.FirstOrDefaultAsync(m => m.Account == idenityAccount);
+            var EthriftShop = await _context.EmployeeThriftShops.FirstOrDefaultAsync(m => m.Account == employeeAccount);
             ThriftShop thriftShop = EthriftShop.ThriftShop;
             if (EthriftShop != null)
             {
