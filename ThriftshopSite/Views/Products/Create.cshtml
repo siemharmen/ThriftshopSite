@@ -18,50 +18,7 @@
 <div class="row">
 
     @product.Id 
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-              <div class="form-group">
-                <label asp-for="product.Id" class="control-label"></label>
-                <input asp-for="product.Id" value=@product.Id class="form-control" />
-                <span asp-validation-for="product.Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="product.Name" class="control-label"></label>
-                <input asp-for="product.Name" class="form-control" />
-                <span asp-validation-for="product.Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="product.Inventory" class="control-label"></label>
-                <input asp-for="product.Inventory" class="form-control" />
-                <span asp-validation-for="product.Inventory" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="product.Price" class="control-label"></label>
-                <input asp-for="product.Price" class="form-control" />
-                <span asp-validation-for="product.Price" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="product.Description" class="control-label"></label>
-                <input asp-for="product.Description" class="form-control" />
-                <span asp-validation-for="product.Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="product.Image" class="control-label"></label>
-                <input asp-for="product.Image" class="form-control" />
-                <span asp-validation-for="product.Image" class="text-danger"></span>
-            </div>
-        
-            <div class="form-group">
-                <label asp-for="product.Shop" class="control-label"></label>
-                <select asp-for="product.Shop" asp-items="@(new SelectList(thriftShops))" class="form-control"> </select>
-                <span asp-validation-for="product.Shop" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
+ 
     <div class="col-md-4">
         <form asp-action="Createshop">
               <div class="form-group">
