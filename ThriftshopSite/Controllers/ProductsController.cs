@@ -19,9 +19,24 @@ namespace ThriftshopSite.Controllers
             _context = context;
         }
 
+
+        [HttpGet]
+        public async Task<ActionResult> Search()
+        {
+            return PartialView("_partialtest", await _context.Products.Where(a => a.Name == "a").ToListAsync());
+
+        }
+        [HttpGet]
+        public async Task<ActionResult> Search1(string name)
+        {
+            return PartialView("_partialtest", await _context.Products.Where(a => a.Name == "a").ToListAsync());
+
+        }
+
         // GET: Products
         public async Task<IActionResult> Index()
         {
+            ViewData["Categories"] = await _context.Categories.ToListAsync();
               return _context.Products != null ? 
                           View(await _context.Products.ToListAsync()) :
                           Problem("Entity set 'ApplicationDbContext.Products'  is null.");

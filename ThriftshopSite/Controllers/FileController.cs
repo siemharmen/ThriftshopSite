@@ -95,7 +95,7 @@ namespace ThriftshopSite.Controllers
         [HttpPost]
         public IActionResult UploadFileWithId(IFormFile postedFile,Guid product)
         {
-            string fileName = Path.GetFileName(postedFile.FileName);
+            string fileName = Path.GetFileName(postedFile.FileName);    
             string contentType = postedFile.ContentType;
             using (MemoryStream ms = new MemoryStream())
             {
