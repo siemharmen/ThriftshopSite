@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using ThriftshopSite.Data;
 using ThriftshopSite.Models;
 
@@ -39,6 +40,33 @@ namespace ThriftshopSite.Controllers
             }
             var category = await _context.Categories.FirstOrDefaultAsync(m => m.Name == name);
              return PartialView("_partialtest", listCategory);
+
+        }
+        [HttpGet]
+        public async Task<ActionResult> Search2(string? categoriesJson)
+        {
+            List<string> categories = JsonConvert.DeserializeObject<List<string>>(categoriesJson);
+            List<CategoryProduct> listProduducts1 = new List<CategoryProduct>();
+
+            foreach (string categorie in categories)
+            {
+                if (!listProduducts1.Any()) {
+                    listProduducts1 = _context.CategoryProducts.Where(a => a.CategoriesName == categorie).ToList();
+                }
+                else
+                {
+                    listProduducts1 = listProduducts1.Intersect(_context.CategoryProducts.Where(a => a.CategoriesName == categorie).ToList());
+                }
+
+            }
+            List<Product> listCategory = new List<Product>();
+
+            foreach (CategoryProduct categoryProduct in listProduducts1)
+            {
+                Product product = await _context.Products.FirstOrDefaultAsync(m => m.Id == categoryProduct.ProductsId);
+                listCategory.Add(product);
+            }
+            return PartialView("_partialtest", listCategory);
 
         }
 

@@ -63,6 +63,8 @@
        <button id="buttonForm" onclick="myFunction()" type="button">update</button>
 
 </p>
+   <button id="buttonForm" onclick="getList()" type="button">getlist</button>
+
 <table class="table">
     <thead>
         <tr>
@@ -124,7 +126,9 @@
 <button id="buttonForm" onclick="myFunction()" type="button">update</button>
 
 <p id="demo"></p>
-<ul>
+<ul id="myList">
+    <li id="Brutalist">Brutalist</li>
+    <li id="Chair">Chair</li>
 </ul>
 <script>
 function myFunction(){
@@ -141,5 +145,29 @@ function say(category) {
 
         $("ul").append('<li id=' +category+ '>' + category  + '</li>');
 }
+function getList() {
 
+    // Get the <ul> element by its ID
+    const ulElement = document.getElementById('myList'); // Assuming the <ul> element has the ID "myList"
+
+    // Get all <li> elements within the <ul> element
+    const liElements = ulElement.getElementsByTagName('li');
+
+    // Create an array to store the list items  
+    const itemList = [];
+
+    // Iterate over the <li> elements and add their text content to the array
+    for (let i = 0; i < liElements.length; i++) {
+        itemList.push(liElements[i].textContent);
+    }
+    console.log(itemList);
+    var serializedList = JSON.stringify(itemList);
+    var queryString = '?categoriesJson=' + encodeURIComponent(serializedList);
+    $('#divPartial').load('/Products/Search2/' + queryString);
+
+
+    return itemList
+}
+
+// Output the list
 </script>
