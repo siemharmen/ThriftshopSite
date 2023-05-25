@@ -27,9 +27,18 @@ namespace ThriftshopSite.Controllers
 
         }
         [HttpGet]
-        public async Task<ActionResult> Search1(string name)
+        public async Task<ActionResult> Search1(string? name)
         {
-            return PartialView("_partialtest", await _context.Products.Where(a => a.Name == "a").ToListAsync());
+            List<CategoryProduct> listProduducts = _context.CategoryProducts.Where(a => a.CategoriesName == name).ToList();
+            List<Product> listCategory = new List<Product>();
+
+            foreach (CategoryProduct categoryProduct in listProduducts)
+            {
+                Product product = await _context.Products.FirstOrDefaultAsync(m => m.Id == categoryProduct.ProductsId);
+                listCategory.Add(product);
+            }
+            var category = await _context.Categories.FirstOrDefaultAsync(m => m.Name == name);
+             return PartialView("_partialtest", listCategory);
 
         }
 

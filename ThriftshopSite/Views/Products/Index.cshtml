@@ -136,7 +136,9 @@ function clikcdropdown() {
 }
 function say(category) {
   document.getElementById("demo").innerHTML = category;
-        $('#divPartial').load('/Products/Search1/',category); 
+       // $('#divPartial').load('/Products/Search1/', { name: category });
+        $('#divPartial').load('/Products/Search1/?name=' + category);
+
         $("ul").append('<li id=' +category+ '>' + category  + '</li>');
 }
 
