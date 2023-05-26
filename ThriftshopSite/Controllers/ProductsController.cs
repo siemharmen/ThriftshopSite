@@ -47,27 +47,28 @@ namespace ThriftshopSite.Controllers
         {
             List<string> categories = JsonConvert.DeserializeObject<List<string>>(categoriesJson);
             List<CategoryProduct> listProduducts1 = new List<CategoryProduct>();
-
-            
+            //listProduducts1 = _context.CategoryProducts.ToList();
             foreach (string categorie in categories)
             {
-                List<CategoryProduct> listProduductstemp = new List<CategoryProduct>();
-                if (!listProduducts1.Any()) {
-                    listProduducts1 = _context.CategoryProducts.Where(a => a.CategoriesName == categorie).ToList();
-                    //listProduducts1.Where(a => a.CategoriesName == categorie).ToList();
-                }
-                else
-                {
-                    listProduductstemp = _context.CategoryProducts.Where(a => a.CategoriesName == categorie).ToList();
-                    listProduducts1 = listProduducts1.Intersect(listProduductstemp).ToList();
-                }
+                List<CategoryProduct> tempList = new List<CategoryProduct>();
+                tempList = _context.CategoryProducts.Where(a => a.CategoriesName == categorie).ToList();
+                listProduducts1.AddRange(tempList);
 
             }
+            var test = listProduducts1;
+            var query = listProduducts1.GroupBy(x => x.ProductsId)
+              .Where(g => g.Count() > 2)
+              .Select(y => y.Key)
+              .ToList();
+
+            var noDupes = query.Distinct().ToList();
+
             List<Product> listCategory = new List<Product>();
 
-            foreach (CategoryProduct categoryProduct in listProduducts1)
+
+            foreach (Guid categoryProduct in noDupes)
             {
-                Product product = await _context.Products.FirstOrDefaultAsync(m => m.Id == categoryProduct.ProductsId);
+                Product product = await _context.Products.FirstOrDefaultAsync(m => m.Id == categoryProduct);
                 listCategory.Add(product);
             }
             return PartialView("_partialtest", listCategory);
