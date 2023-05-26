@@ -55,20 +55,23 @@ namespace ThriftshopSite.Controllers
                 listProduducts1.AddRange(tempList);
 
             }
-            var test = listProduducts1;
-            var query = listProduducts1.GroupBy(x => x.ProductsId)
-              .Where(g => g.Count() > 2)
-              .Select(y => y.Key)
-              .ToList();
 
-            var noDupes = query.Distinct().ToList();
+            List<CategoryProduct> filteredList = listProduducts1
+                .GroupBy(x => x.ProductsId)
+                .Where(g => categories.All(c => g.Any(x => x.CategoriesName == c)))
+    .            Select(g => g.First())
+                .ToList();
+
+
+            //var noDupes = filteredList.Distinct().ToList();
 
             List<Product> listCategory = new List<Product>();
 
 
-            foreach (Guid categoryProduct in noDupes)
+
+            foreach (CategoryProduct categoryProduct in filteredList)
             {
-                Product product = await _context.Products.FirstOrDefaultAsync(m => m.Id == categoryProduct);
+                Product product = await _context.Products.FirstOrDefaultAsync(m => m.Id == categoryProduct.ProductsId);
                 listCategory.Add(product);
             }
             return PartialView("_partialtest", listCategory);

@@ -127,8 +127,8 @@
 
 <p id="demo"></p>
 <ul id="myList">
-    <li id="Brutalist">Brutalist</li>
-    <li id="Green">Green</li>
+    <li onclick="DeleteById('Brutalist')" id="Brutalist">Brutalist</li>
+    <li onclick="DeleteById('Green')" id="Green">Green</li>
 </ul>
 <script>
 function myFunction(){
@@ -141,9 +141,9 @@ function clikcdropdown() {
 function say(category) {
   document.getElementById("demo").innerHTML = category;
        // $('#divPartial').load('/Products/Search1/', { name: category });
-        $('#divPartial').load('/Products/Search1/?name=' + category);
+       $('#divPartial').load('/Products/Search1/?name=' + category);
 
-        $("ul").append('<li id=' +category+ '>' + category  + '</li>');
+        $("ul").append('<li onclick="DeleteById(\'' + category + '\')" id=' +category+ '>' + category + '</li>');
 }
 function getList() {
 
@@ -168,6 +168,23 @@ function getList() {
 
     return itemList
 }
-
+function DeleteById(Element) {
+    const element = document.getElementById(Element);
+    console.log(element);
+    element.remove();
+}
 // Output the list
+
+$("ul").on("click", "li", function() {
+    DeleteById($(this).attr("id"));
+});
+
+// Example function to remove elements by ID
+function DeleteById(elementId) {
+    const element = document.getElementById(elementId);
+    console.log(element);
+    if (element) {
+        element.remove();
+    }
+}
 </script>
