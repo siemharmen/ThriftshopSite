@@ -48,14 +48,18 @@ namespace ThriftshopSite.Controllers
             List<string> categories = JsonConvert.DeserializeObject<List<string>>(categoriesJson);
             List<CategoryProduct> listProduducts1 = new List<CategoryProduct>();
 
+            
             foreach (string categorie in categories)
             {
+                List<CategoryProduct> listProduductstemp = new List<CategoryProduct>();
                 if (!listProduducts1.Any()) {
                     listProduducts1 = _context.CategoryProducts.Where(a => a.CategoriesName == categorie).ToList();
+                    //listProduducts1.Where(a => a.CategoriesName == categorie).ToList();
                 }
                 else
                 {
-                    listProduducts1 = listProduducts1.Intersect(_context.CategoryProducts.Where(a => a.CategoriesName == categorie).ToList());
+                    listProduductstemp = _context.CategoryProducts.Where(a => a.CategoriesName == categorie).ToList();
+                    listProduducts1 = listProduducts1.Intersect(listProduductstemp).ToList();
                 }
 
             }
