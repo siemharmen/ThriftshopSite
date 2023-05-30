@@ -48,6 +48,8 @@
 
 .dropdown:hover .dropbtn {background-color: #3e8e41;}
 </style>
+
+
 <div class="dropdown">
   <button class="dropbtn">Dropdown</button>
   <div class="dropdown-content">
@@ -127,8 +129,7 @@
 
 <p id="demo"></p>
 <ul id="myList">
-    <li onclick="DeleteById('Brutalist')" id="Brutalist">Brutalist</li>
-    <li onclick="DeleteById('Green')" id="Green">Green</li>
+    
 </ul>
 <script>
 function myFunction(){
@@ -138,12 +139,49 @@ function clikcdropdown() {
       $('#divPartial').load('/Products/Search'); 
 
 }
+
+
 function say(category) {
   document.getElementById("demo").innerHTML = category;
        // $('#divPartial').load('/Products/Search1/', { name: category });
        $('#divPartial').load('/Products/Search1/?name=' + category);
 
         $("ul").append('<li onclick="DeleteById(\'' + category + '\')" id=' +category+ '>' + category + '</li>');
+}
+
+
+// Output the list
+
+$("#myList").on("click", "li", function() {
+    DeleteById($(this).attr("id"));
+    getList();
+});
+
+
+// Example function to remove elements by ID
+function DeleteById(elementId) {
+    const element = document.getElementById(elementId);
+    console.log(element);
+    if (element) {
+        element.remove();
+    }
+        const ulElement = document.getElementById('myList'); // Assuming the <ul> element has the ID "myList"
+
+    // Get all <li> elements within the <ul> element
+    const liElements = ulElement.getElementsByTagName('li');
+
+    // Create an array to store the list items  
+    const itemList = [];
+
+    // Iterate over the <li> elements and add their text content to the array
+    for (let i = 0; i < liElements.length; i++) {
+        itemList.push(liElements[i].textContent);
+    }
+    console.log(itemList);
+     var serializedList = JSON.stringify(itemList);
+    var queryString = '?categoriesJson=' + encodeURIComponent(serializedList);
+    $('#divPartial').load('/Products/FilterByMultiple/' + queryString);
+
 }
 function getList() {
 
@@ -163,28 +201,9 @@ function getList() {
     console.log(itemList);
     var serializedList = JSON.stringify(itemList);
     var queryString = '?categoriesJson=' + encodeURIComponent(serializedList);
-    $('#divPartial').load('/Products/Search2/' + queryString);
+    $('#divPartial').load('/Products/FilterByMultiple/' + queryString);
 
 
     return itemList
-}
-function DeleteById(Element) {
-    const element = document.getElementById(Element);
-    console.log(element);
-    element.remove();
-}
-// Output the list
-
-$("ul").on("click", "li", function() {
-    DeleteById($(this).attr("id"));
-});
-
-// Example function to remove elements by ID
-function DeleteById(elementId) {
-    const element = document.getElementById(elementId);
-    console.log(element);
-    if (element) {
-        element.remove();
-    }
 }
 </script>

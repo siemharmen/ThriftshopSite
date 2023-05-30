@@ -20,15 +20,8 @@ namespace ThriftshopSite.Controllers
             _context = context;
         }
 
-
         [HttpGet]
-        public async Task<ActionResult> Search()
-        {
-            return PartialView("_partialtest", await _context.Products.Where(a => a.Name == "a").ToListAsync());
-
-        }
-        [HttpGet]
-        public async Task<ActionResult> Search1(string? name)
+        public async Task<ActionResult> FilterByOne(string? name)
         {
             List<CategoryProduct> listProduducts = _context.CategoryProducts.Where(a => a.CategoriesName == name).ToList();
             List<Product> listCategory = new List<Product>();
@@ -42,8 +35,14 @@ namespace ThriftshopSite.Controllers
              return PartialView("_partialtest", listCategory);
 
         }
+        /// <summary>
+        /// uses a json file to send multiple fitlers these filter will be used to filter the products based on categories
+        /// if there are no categories provided it will instead show every product.
+        /// </summary>
+        /// <param name="categoriesJson"></param>
+        /// <returns></returns>
         [HttpGet]
-        public async Task<ActionResult> Search2(string? categoriesJson)
+        public async Task<ActionResult> FilterByMultiple(string? categoriesJson)
         {
             List<string> categories = JsonConvert.DeserializeObject<List<string>>(categoriesJson);
             List<CategoryProduct> listProduducts1 = new List<CategoryProduct>();
@@ -62,17 +61,16 @@ namespace ThriftshopSite.Controllers
     .            Select(g => g.First())
                 .ToList();
 
-
-            //var noDupes = filteredList.Distinct().ToList();
-
             List<Product> listCategory = new List<Product>();
-
-
 
             foreach (CategoryProduct categoryProduct in filteredList)
             {
                 Product product = await _context.Products.FirstOrDefaultAsync(m => m.Id == categoryProduct.ProductsId);
                 listCategory.Add(product);
+            }
+            if(!listCategory.Any())
+            {
+                listCategory = _context.Products.ToList();
             }
             return PartialView("_partialtest", listCategory);
 
@@ -116,6 +114,11 @@ namespace ThriftshopSite.Controllers
         }
 
         // GET: Products/Details/5
+        /// <summary>
+        /// makes it possible to add a category to the product chosen from a list of categories not yet added to the product
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<IActionResult> Add(Guid? id)
         {
             if (id == null || _context.Products == null)
