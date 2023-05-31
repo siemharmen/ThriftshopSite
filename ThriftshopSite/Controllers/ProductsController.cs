@@ -373,6 +373,12 @@ namespace ThriftshopSite.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
+            List<FileModel> files = _context.Files.Where(a => a.Product.Id == id).ToList();
+            foreach (FileModel file in files)
+            {
+                _context.Files.Remove(file);
+
+            }
             if (_context.Products == null)
             {
                 return Problem("Entity set 'ApplicationDbContext.Products'  is null.");
