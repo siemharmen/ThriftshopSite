@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using ThriftshopSite.Models;
 
 namespace ThriftshopSite.Controllers
 {
+    [Authorize(Roles = "Employee")]
     public class CategoriesController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -22,9 +24,9 @@ namespace ThriftshopSite.Controllers
         // GET: Categories
         public async Task<IActionResult> Index()
         {
-              return _context.Categories != null ? 
-                          View(await _context.Categories.ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.Categories'  is null.");
+            return _context.Categories != null ?
+                        View(await _context.Categories.ToListAsync()) :
+                        Problem("Entity set 'ApplicationDbContext.Categories'  is null.");
         }
 
         // GET: Categories/Details/5
@@ -48,7 +50,7 @@ namespace ThriftshopSite.Controllers
         // GET: Categories/Create
         public IActionResult Create()
         {
-            ViewData["Types"] = new Category("test",Category.Ctype.Color).getCtypes(); 
+            ViewData["Types"] = new Category("test", Category.Ctype.Color).getCtypes();
             return View();
         }
 
@@ -163,11 +165,12 @@ namespace ThriftshopSite.Controllers
             {
                 _context.Categories.Remove(category);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
+        [AllowAnonymous]
         private bool CategoryExists(string id)
         {
           return (_context.Categories?.Any(e => e.Name == id)).GetValueOrDefault();

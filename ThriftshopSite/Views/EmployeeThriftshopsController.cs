@@ -87,6 +87,11 @@ namespace ThriftshopSite.Views
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Guid userGuid,string thriftShop)
         {
+            var userAccount = await _context.UserAccount
+                .FirstOrDefaultAsync(m => m.Id == userGuid);
+            userAccount.role = UserAccount.Role.Employee;
+            IdentityUser user = await _userManager.FindByNameAsync(userAccount.Name);
+            await _userManager.AddToRoleAsync(user, "Thriftshop Employee");
             //maak van thriftshop een guid dan zelfde doen dan klaar
             if (ModelState.IsValid)
             {

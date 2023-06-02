@@ -118,7 +118,6 @@ namespace ThriftshopSite.Controllers
             await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));
-            return View();
         }
 
 

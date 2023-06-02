@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ using ThriftshopSite.Models;
 
 namespace ThriftshopSite.Controllers
 {
+    [Authorize(Roles = "Employee,Admin")]
     public class ProductsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -21,6 +23,7 @@ namespace ThriftshopSite.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult> FilterByOne(string? name)
         {
             List<CategoryProduct> listProduducts = _context.CategoryProducts.Where(a => a.CategoriesName == name).ToList();
@@ -41,6 +44,7 @@ namespace ThriftshopSite.Controllers
         /// </summary>
         /// <param name="categoriesJson"></param>
         /// <returns></returns>
+        [AllowAnonymous]
         [HttpGet]
         public async Task<ActionResult> FilterByMultiple(string? categoriesJson)
         {
@@ -61,22 +65,23 @@ namespace ThriftshopSite.Controllers
     .            Select(g => g.First())
                 .ToList();
 
-            List<Product> listCategory = new List<Product>();
+            List<Product> listProducts = new List<Product>();
 
             foreach (CategoryProduct categoryProduct in filteredList)
             {
                 Product product = await _context.Products.FirstOrDefaultAsync(m => m.Id == categoryProduct.ProductsId);
-                listCategory.Add(product);
+                listProducts.Add(product);
             }
-            if(!listCategory.Any())
+            if(!categories.Any())
             {
-                listCategory = _context.Products.ToList();
+                listProducts = _context.Products.ToList();
             }
-            return PartialView("_partialtest", listCategory);
+            return PartialView("_partialtest", listProducts);
 
         }
 
         // GET: Products
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             ViewData["Categories"] = await _context.Categories.ToListAsync();
@@ -86,6 +91,7 @@ namespace ThriftshopSite.Controllers
         }
 
         // GET: Products/Details/5
+        [AllowAnonymous]
         public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null || _context.Products == null)
@@ -302,6 +308,9 @@ namespace ThriftshopSite.Controllers
         // GET: Products/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
         {
+            UserAccount user = await _context.UserAccount.FirstAsync(m => m.Name == User.Identity.Name);
+            IEnumerable<ThriftShop> thriftShops = _context.EmployeeThriftShops.Include(x => x.ThriftShop).Where(entry => entry.Account == user).Select(entry => entry.ThriftShop).AsEnumerable<ThriftShop>();
+            ViewData["Thrifshop"] = thriftShops;
             if (id == null || _context.Products == null)
             {
                 return NotFound();
@@ -320,12 +329,20 @@ namespace ThriftshopSite.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Id,Name,Inventory,Price,Description,Image")] Product product)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Id,Name,Inventory,Price,Description,Image,Shop,Categories")] Product product)
         {
             if (id != product.Id)
             {
                 return NotFound();
             }
+            List<CategoryProduct> list2 = _context.CategoryProducts.Where(a => a.ProductsId == id).ToList();
+            List<Category> listCategory = new List<Category>();
+            foreach (CategoryProduct categoryProduct in list2)
+            {
+                Category category = await _context.Categories.FirstOrDefaultAsync(m => m.Name == categoryProduct.CategoriesName);
+                listCategory.Add(category);
+            }
+            product.Categories = listCategory;
 
             if (ModelState.IsValid)
             {
@@ -373,7 +390,15 @@ namespace ThriftshopSite.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
+
             List<FileModel> files = _context.Files.Where(a => a.Product.Id == id).ToList();
+            List<CategoryProduct> categoryProducts = _context.CategoryProducts.Where(a => a.ProductsId == id).ToList();
+
+            foreach (CategoryProduct categoryProduct in categoryProducts)
+            {
+                _context.CategoryProducts.Remove(categoryProduct);
+
+            }
             foreach (FileModel file in files)
             {
                 _context.Files.Remove(file);

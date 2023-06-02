@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using ThriftshopSite.Data;
 using ThriftshopSite.Models;
 
 namespace ThriftshopSite.Controllers
 {
+    [Authorize(Roles = "Employee")]
     public class FileController : Controller
     {
         private IConfiguration Configuration;
@@ -88,6 +90,7 @@ namespace ThriftshopSite.Controllers
 
         /// <summary>
         /// Uploads a file to the database with an id based on the given product
+        /// using in add products
         /// </summary>
         /// <param name="postedFile"></param>
         /// <param name="product"></param>
@@ -187,10 +190,12 @@ namespace ThriftshopSite.Controllers
 
         /// <summary>
         /// shows a images from a file based on that files name
+        /// curretly used in the details page
         /// </summary>
         /// <param name="Name"></param>
         /// <returns></returns>
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult ShowFileByName(string Name)
         {
             byte[] bytes;

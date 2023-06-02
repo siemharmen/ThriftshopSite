@@ -55,12 +55,15 @@
   <div class="dropdown-content">
         @foreach (Category p in listCategories)
         {
-   <a id="buttonForm" onclick="say('@p.Name')" type="button">@p.Name</a>
+   <a id="buttonForm" onclick="AddFilter('@p.Name')" type="button">@p.Name</a>
         }
   </div>
 </div>
 <p>
+                            @if (User.IsInRole("Employee") || User.IsInRole("Admin"))
+{
     <a asp-action="Create">Create New</a>
+}
    <a asp-action="Search">update</a>
        <button id="buttonForm" type="button">update</button>
 
@@ -141,11 +144,11 @@ function clikcdropdown() {
 }
 
 
-function say(category) {
+function AddFilter(category) {
        // $('#divPartial').load('/Products/Search1/', { name: category });
         $("ul").append('<li onclick="DeleteById(\'' + category + '\')" id=' +category+ '>' + category + '</li>');
-          document.getElementById(category).click();
-        getList();
+       document.getElementById(category).click();
+       getList();
 }
 
 $(function() {

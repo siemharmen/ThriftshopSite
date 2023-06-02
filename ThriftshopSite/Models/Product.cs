@@ -11,7 +11,8 @@ namespace ThriftshopSite.Models
         public double Price { get; set; }
         public string Description { get; set; }
         public string Image { get; set; }
-        public ThriftShop Shop { get; set; }  
+        public ThriftShop Shop { get; set; }
+        public string? ShopName { get; set; }
         //public List<Category> Categories { get; set; }
         public virtual ICollection<Category> Categories { get; set; }
         public ICollection<FileModel> Files { get; } = new List<FileModel>();
