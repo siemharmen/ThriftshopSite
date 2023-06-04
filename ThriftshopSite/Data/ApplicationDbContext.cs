@@ -45,10 +45,49 @@ namespace ThriftshopSite.Data
                     Name = "User",
                     NormalizedName = "User"
                 }
-            });            //modelBuilder.Entity<Product>().HasData(
-            //  new Product(Guid.NewGuid(),"Grey chair", 2, 1.6,"a chair",new ThriftShop("weezel", "bakkerstreet"), new List<Category>(){new Sort("test")})
+            });
 
-            //);
+            modelBuilder.Entity<Category>().HasData(new List<Category>
+            {
+                new Category
+                {
+                    Name = "Green",
+                    CategoryType = Category.Ctype.Color
+                },
+              new Category
+                {
+                    Name = "Modern",
+                    CategoryType = Category.Ctype.Style
+                },
+               new Category
+                {
+                    Name = "Chair",
+                    CategoryType = Category.Ctype.Sort
+                },
+            });
+    
+            var hasher = new PasswordHasher<IdentityUser>();
+
+            modelBuilder.Entity<IdentityUser>().HasData(
+                 new IdentityUser
+                 {
+                     Id = "8e445865-a24d-4543-a6c6-9443d048cdb9", // primary key
+                     UserName = "Admin.Admin@admin.nl",
+                     Email = "Admin.Admin@admin.nl",
+                     NormalizedUserName = "ADMIN.ADMIN@ADMIN.NL",
+                     NormalizedEmail = "ADMIN.ADMIN@ADMIN.NL",
+                     PasswordHash = hasher.HashPassword(null, "Password!12"),
+                     EmailConfirmed = true,
+                 });
+
+            modelBuilder.Entity<IdentityUserRole<string>>().HasData(
+                new IdentityUserRole<string>
+                {
+                    RoleId = "1",
+                    UserId = "8e445865-a24d-4543-a6c6-9443d048cdb9"
+                }
+            );
+
         }
 
 

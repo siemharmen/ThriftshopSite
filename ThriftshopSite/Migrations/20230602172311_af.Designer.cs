@@ -12,8 +12,8 @@ using ThriftshopSite.Data;
 namespace ThriftshopSite.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230516155639_full")]
-    partial class full
+    [Migration("20230602172311_af")]
+    partial class af
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -69,21 +69,21 @@ namespace ThriftshopSite.Migrations
                         new
                         {
                             Id = "1",
-                            ConcurrencyStamp = "52c9bfd2-7b96-4517-b22e-577f66d89552",
+                            ConcurrencyStamp = "e4c778f8-136e-4749-aeeb-e37321c50ce9",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "2",
-                            ConcurrencyStamp = "1958abb1-8c3b-4acd-9c94-ba3996ac92b3",
+                            ConcurrencyStamp = "689e282b-e065-433e-abc7-a6db3ae7e78a",
                             Name = "Employee",
                             NormalizedName = "Thriftshop Employee"
                         },
                         new
                         {
                             Id = "3",
-                            ConcurrencyStamp = "0be7eb3d-1e79-4bfb-9f86-92db8a7bcad6",
+                            ConcurrencyStamp = "cb59c8ef-230a-470e-89ec-32bef68c1c1f",
                             Name = "User",
                             NormalizedName = "User"
                         });
@@ -177,6 +177,22 @@ namespace ThriftshopSite.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "8e445865-a24d-4543-a6c6-9443d048cdb9",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "acbdc7f6-0af8-4db9-89fb-cf647fbc20b7",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedUserName = "ADMIN",
+                            PasswordHash = "AQAAAAEAACcQAAAAEF4MaXYk0DVLQt6FzfhlFbw2xuRNRLk9qBPTcYE6IQqLMin+0aAbDb2uIgZnG+FpCQ==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "607477ce-0187-4926-9768-9cc9675d2090",
+                            TwoFactorEnabled = false,
+                            UserName = "Admin.Admin@admin.nl"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -241,6 +257,13 @@ namespace ThriftshopSite.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "8e445865-a24d-4543-a6c6-9443d048cdb9",
+                            RoleId = "1"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -275,6 +298,23 @@ namespace ThriftshopSite.Migrations
                     b.HasKey("Name");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Name = "Green",
+                            CategoryType = 0
+                        },
+                        new
+                        {
+                            Name = "Modern",
+                            CategoryType = 2
+                        },
+                        new
+                        {
+                            Name = "Chair",
+                            CategoryType = 1
+                        });
                 });
 
             modelBuilder.Entity("ThriftshopSite.Models.CategoryProduct", b =>

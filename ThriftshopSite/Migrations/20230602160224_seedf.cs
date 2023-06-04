@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ThriftshopSite.Migrations
 {
-    public partial class full : Migration
+    public partial class seedf : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -300,17 +300,32 @@ namespace ThriftshopSite.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "1", "52c9bfd2-7b96-4517-b22e-577f66d89552", "Admin", "ADMIN" });
+                values: new object[,]
+                {
+                    { "1", "35b8247e-45e4-4eea-ae23-68f0e5ba8369", "Admin", "ADMIN" },
+                    { "2", "398cd96b-0782-4e92-af70-5a02e8d00ba6", "Employee", "Thriftshop Employee" },
+                    { "3", "f2178a93-a7c1-4f05-9c74-0b7707df32d8", "User", "User" }
+                });
 
             migrationBuilder.InsertData(
-                table: "AspNetRoles",
-                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "2", "1958abb1-8c3b-4acd-9c94-ba3996ac92b3", "Employee", "Thriftshop Employee" });
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[] { "8e445865-a24d-4543-a6c6-9443d048cdb9", 0, "5af6e749-c5f2-43f2-8e45-a396425778b2", null, true, false, null, null, "ADMIN", "AQAAAAEAACcQAAAAECj9EWSApNo5vqC+oJE6bY4O4fIXediMUoeeMZhL04Vxx5WvqGosa3FZrWFOQFnJdw==", null, false, "83df5359-04c4-4919-a059-2a8ce13062fb", false, "Admin.Admin@admin.nl" });
 
             migrationBuilder.InsertData(
-                table: "AspNetRoles",
-                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "3", "0be7eb3d-1e79-4bfb-9f86-92db8a7bcad6", "User", "User" });
+                table: "Categories",
+                columns: new[] { "Name", "CategoryType" },
+                values: new object[,]
+                {
+                    { "Chair", 1 },
+                    { "Green", 0 },
+                    { "Modern", 2 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUserRoles",
+                columns: new[] { "RoleId", "UserId" },
+                values: new object[] { "1", "8e445865-a24d-4543-a6c6-9443d048cdb9" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

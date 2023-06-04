@@ -48,6 +48,7 @@ namespace ThriftshopSite.Controllers
         [HttpGet]
         public async Task<ActionResult> FilterByMultiple(string? categoriesJson)
         {
+            
             List<string> categories = JsonConvert.DeserializeObject<List<string>>(categoriesJson);
             List<CategoryProduct> listProduducts1 = new List<CategoryProduct>();
             //listProduducts1 = _context.CategoryProducts.ToList();
@@ -59,11 +60,13 @@ namespace ThriftshopSite.Controllers
 
             }
 
-            List<CategoryProduct> filteredList = listProduducts1
+
+            List<CategoryProduct> filteredList = listProduducts1 
                 .GroupBy(x => x.ProductsId)
                 .Where(g => categories.All(c => g.Any(x => x.CategoriesName == c)))
     .            Select(g => g.First())
                 .ToList();
+
 
             List<Product> listProducts = new List<Product>();
 
@@ -163,9 +166,10 @@ namespace ThriftshopSite.Controllers
             UserAccount user = await _context.UserAccount.FirstAsync(m => m.Name == User.Identity.Name);
 
             IEnumerable<ThriftShop> thriftShops = _context.EmployeeThriftShops.Include(x => x.ThriftShop).Where(entry => entry.Account == user).Select(entry => entry.ThriftShop).AsEnumerable<ThriftShop>();
+            ViewData["Thrifshop"] = thriftShops;
+
             ViewData["Categories"] = _context.Categories;
             var Fileid = TempData["ProductsId"];
-            ViewData["Thrifshop"] = thriftShops;
             //alles ophalen op basis van ditdan toeveogen aanproduct
             // dan updaten zodat je ze kloppen met de goede productid
             // ViewData["ProductsId"] = productslist;

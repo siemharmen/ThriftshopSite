@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ThriftshopSite.Data;
 
@@ -11,9 +12,10 @@ using ThriftshopSite.Data;
 namespace ThriftshopSite.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230602171922_fourth")]
+    partial class fourth
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -67,21 +69,21 @@ namespace ThriftshopSite.Migrations
                         new
                         {
                             Id = "1",
-                            ConcurrencyStamp = "5bc12334-33c7-493b-ae65-561957b3e74f",
+                            ConcurrencyStamp = "a8217c97-32e6-4f96-8d43-d353f1bbc8d2",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "2",
-                            ConcurrencyStamp = "da6f1be5-1282-42ed-aafc-0a1f87e15337",
+                            ConcurrencyStamp = "9b87c24e-d817-4b08-92b0-c0b3731542b4",
                             Name = "Employee",
                             NormalizedName = "Thriftshop Employee"
                         },
                         new
                         {
                             Id = "3",
-                            ConcurrencyStamp = "8095dc71-44b6-49b1-a2d5-5c25937c0331",
+                            ConcurrencyStamp = "50654f40-7b5f-4414-b1ed-df0528ce6c9f",
                             Name = "User",
                             NormalizedName = "User"
                         });
@@ -181,15 +183,13 @@ namespace ThriftshopSite.Migrations
                         {
                             Id = "8e445865-a24d-4543-a6c6-9443d048cdb9",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "50a90c67-e391-4c68-bf2a-28599e559949",
-                            Email = "Admin.Admin@admin.nl",
+                            ConcurrencyStamp = "6ecab79d-db50-4461-a17a-6b43d2addb42",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
-                            NormalizedEmail = "ADMIN.ADMIN@ADMIN.NL",
-                            NormalizedUserName = "ADMIN.ADMIN@ADMIN.NL",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMXGo0P7lcjoZkCHCBWjhdCShtl85sntTWH/izZu+bpmfRtRfnotMQsyBLcUMTIkxg==",
+                            NormalizedUserName = "ADMIN",
+                            PasswordHash = "AQAAAAEAACcQAAAAELTCnmbcWuqUt6an0+oeljOle7m0bh4OWSKBUBsSshm3h0+P0bSijAfjLJjACEuXHg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "0a800275-6040-4a34-a1b2-f5d5e7559953",
+                            SecurityStamp = "db171ba5-e86a-40c6-b20c-eb9ef06fad05",
                             TwoFactorEnabled = false,
                             UserName = "Admin.Admin@admin.nl"
                         });
