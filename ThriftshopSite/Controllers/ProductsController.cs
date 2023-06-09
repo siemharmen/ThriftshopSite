@@ -50,18 +50,12 @@ namespace ThriftshopSite.Controllers
         {
             
             List<string> categories = JsonConvert.DeserializeObject<List<string>>(categoriesJson);
-            List<CategoryProduct> listProduducts1 = new List<CategoryProduct>();
-            //listProduducts1 = _context.CategoryProducts.ToList();
-            foreach (string categorie in categories)
-            {
-                List<CategoryProduct> tempList = new List<CategoryProduct>();
-                tempList = _context.CategoryProducts.Where(a => a.CategoriesName == categorie).ToList();
-                listProduducts1.AddRange(tempList);
 
-            }
+            List<CategoryProduct> listProduducts2 = categories
+                .SelectMany(categorie => _context.CategoryProducts.Where(cp => cp.CategoriesName == categorie))
+                .ToList();
 
-
-            List<CategoryProduct> filteredList = listProduducts1 
+            List <CategoryProduct> filteredList = listProduducts2
                 .GroupBy(x => x.ProductsId)
                 .Where(g => categories.All(c => g.Any(x => x.CategoriesName == c)))
     .            Select(g => g.First())
