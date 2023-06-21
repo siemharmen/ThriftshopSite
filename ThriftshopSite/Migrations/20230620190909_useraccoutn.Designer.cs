@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ThriftshopSite.Data;
 
@@ -11,9 +12,10 @@ using ThriftshopSite.Data;
 namespace ThriftshopSite.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230620190909_useraccoutn")]
+    partial class useraccoutn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -67,21 +69,21 @@ namespace ThriftshopSite.Migrations
                         new
                         {
                             Id = "1",
-                            ConcurrencyStamp = "cbfeae1d-dc3f-4ab4-8b86-8d004608e1f4",
+                            ConcurrencyStamp = "34a12a12-3c50-4dc1-b3cc-1aff27aa06c9",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "2",
-                            ConcurrencyStamp = "f10cf12e-3563-44e4-a50d-6c363927e3b5",
+                            ConcurrencyStamp = "9c5de7f4-e7d7-4dae-bcbe-86f9b8bd9452",
                             Name = "Employee",
                             NormalizedName = "Thriftshop Employee"
                         },
                         new
                         {
                             Id = "3",
-                            ConcurrencyStamp = "a115550f-5728-412f-bc3b-d6438ee9ac5f",
+                            ConcurrencyStamp = "ecbed72a-1f3e-473d-a0c7-303c3b026b4d",
                             Name = "User",
                             NormalizedName = "User"
                         });
@@ -181,15 +183,15 @@ namespace ThriftshopSite.Migrations
                         {
                             Id = "8e445865-a24d-4543-a6c6-9443d048cdb9",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "65186825-0e6b-4f6f-a466-df86cdbb61dc",
+                            ConcurrencyStamp = "1ed0ac41-4b43-4176-ae4c-acee4ea2b1c7",
                             Email = "Admin.Admin@admin.nl",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN.ADMIN@ADMIN.NL",
                             NormalizedUserName = "ADMIN.ADMIN@ADMIN.NL",
-                            PasswordHash = "AQAAAAEAACcQAAAAEP0JNvZJmOsVanjCclpAS56Ea+u0Ya49fsZiU0K6l+hRvPyt8w1BfSyUs18jQ4RK9w==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEKbcjahfi/4zysUCH6pK2ptonRcfzSFflUwtPHKkc+pHlsrYWn0Dl+Rh1/HIXagDTg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "430be543-7ea2-45fe-b5b1-6743958d8693",
+                            SecurityStamp = "694653ca-2e58-4cdf-b78d-0e1c8c7c4305",
                             TwoFactorEnabled = false,
                             UserName = "Admin.Admin@admin.nl"
                         });
@@ -432,14 +434,6 @@ namespace ThriftshopSite.Migrations
                     b.HasKey("Name");
 
                     b.ToTable("ThriftShops");
-
-                    b.HasData(
-                        new
-                        {
-                            Name = "ShareStore Deventer",
-                            IsApproved = true,
-                            Location = "Deventer"
-                        });
                 });
 
             modelBuilder.Entity("ThriftshopSite.Models.UserAccount", b =>
@@ -462,7 +456,7 @@ namespace ThriftshopSite.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("9996b6f9-0061-4f4d-91bd-4bf6a2f190b8"),
+                            Id = new Guid("22a52f5c-478d-4799-b30c-6e2b5523bc6d"),
                             Name = "Admin.Admin@admin.nl",
                             role = 0
                         });

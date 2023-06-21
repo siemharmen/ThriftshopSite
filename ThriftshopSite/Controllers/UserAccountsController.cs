@@ -49,7 +49,7 @@ namespace ThriftshopSite.Controllers
             await _userManager.AddToRoleAsync(user, "Admin");
             await _context.SaveChangesAsync();
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("EmployeeAdd");
             return View();
         }
 

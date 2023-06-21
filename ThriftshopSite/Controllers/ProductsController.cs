@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using ThriftshopSite.Data;
 using ThriftshopSite.Models;
 
+
 namespace ThriftshopSite.Controllers
 {
     [Authorize(Roles = "Employee,Admin")]
@@ -157,7 +158,9 @@ namespace ThriftshopSite.Controllers
         /// <returns></returns>
         public async Task<IActionResult> Create()
         {
-            UserAccount user = await _context.UserAccount.FirstAsync(m => m.Name == User.Identity.Name);
+            //@User.Identity?.Name
+            string userName = User.Identity.Name;
+            UserAccount user = await _context.UserAccount.FirstAsync(m => m.Name == userName);
 
             IEnumerable<ThriftShop> thriftShops = _context.EmployeeThriftShops.Include(x => x.ThriftShop).Where(entry => entry.Account == user).Select(entry => entry.ThriftShop).AsEnumerable<ThriftShop>();
             ViewData["Thrifshop"] = thriftShops;

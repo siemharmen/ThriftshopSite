@@ -51,7 +51,7 @@
 
 
 <div class="dropdown">
-  <button class="dropbtn">Dropdown</button>
+  <button class="dropbtn">Add Categorie</button>
   <div class="dropdown-content">
         @foreach (Category p in listCategories)
         {
@@ -64,11 +64,7 @@
 {
     <a asp-action="Create">Create New</a>
 }
-   <a asp-action="Search">update</a>
-       <button id="buttonForm" type="button">update</button>
-
 </p>
-   <button id="buttonForm" onclick="getList()" type="button">getlist</button>
 
 <table class="table">
     <thead>
@@ -128,7 +124,6 @@
 }
 </div>
 
-<button id="buttonForm" onclick="myFunction()" type="button">update</button>
 
 <p id="demo"></p>
 <ul id="myList">
@@ -146,6 +141,7 @@ function clikcdropdown() {
 
 function AddFilter(category) {
        // $('#divPartial').load('/Products/Search1/', { name: category });
+       //document.getElementById("myList").   ('<li onclick="DeleteById(\'' + category + '\')" id=' +category+ '>' + category + '</li>');
         $("ul").append('<li onclick="DeleteById(\'' + category + '\')" id=' +category+ '>' + category + '</li>');
        document.getElementById(category).click();
        getList();

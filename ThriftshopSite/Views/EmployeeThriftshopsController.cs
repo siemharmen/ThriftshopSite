@@ -101,7 +101,7 @@ namespace ThriftshopSite.Views
                 employeeThriftshop.ThriftShop = await _context.ThriftShops.FirstOrDefaultAsync(m => m.Name == thriftShop);
                 _context.Add(employeeThriftshop);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index","UserAccounts");
             }
             return View();
         }
@@ -134,6 +134,7 @@ namespace ThriftshopSite.Views
                 employeeThriftshop.ThriftShop = await _context.ThriftShops.FirstOrDefaultAsync(m => m.Name == thriftShop); 
                 _context.Add(employeeThriftshop);
                 await _context.SaveChangesAsync();
+                return RedirectToAction("EmployeeAdd","UserAccounts");
                 return RedirectToAction(nameof(Index));
             }
             return View();

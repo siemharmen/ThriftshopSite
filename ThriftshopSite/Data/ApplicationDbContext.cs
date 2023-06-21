@@ -7,6 +7,8 @@ namespace ThriftshopSite.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {
+
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
@@ -68,6 +70,8 @@ namespace ThriftshopSite.Data
     
             var hasher = new PasswordHasher<IdentityUser>();
 
+            UserAccount userAccount = new UserAccount();
+
             modelBuilder.Entity<IdentityUser>().HasData(
                  new IdentityUser
                  {
@@ -78,7 +82,7 @@ namespace ThriftshopSite.Data
                      NormalizedEmail = "ADMIN.ADMIN@ADMIN.NL",
                      PasswordHash = hasher.HashPassword(null, "Password!12"),
                      EmailConfirmed = true,
-                 });
+                 }); ;
 
             modelBuilder.Entity<IdentityUserRole<string>>().HasData(
                 new IdentityUserRole<string>
@@ -87,6 +91,25 @@ namespace ThriftshopSite.Data
                     UserId = "8e445865-a24d-4543-a6c6-9443d048cdb9"
                 }
             );
+
+            modelBuilder.Entity<UserAccount>().HasData(
+                 new Models.UserAccount
+                 {
+                     Id = Guid.NewGuid(),
+                     Name = "Admin.Admin@admin.nl",
+                     role = Models.UserAccount.Role.Admin
+                 }
+              );
+            modelBuilder.Entity<ThriftShop>().HasData(
+                new Models.ThriftShop
+                {
+                    Name = "ShareStore Deventer",
+                    Location = "Deventer",
+                    IsApproved = true
+                }
+            );
+
+
 
         }
 
